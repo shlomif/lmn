@@ -5,6 +5,7 @@ use warnings;
 use autodie;
 
 use File::Spec;
+use File::stat;
 
 use QtCore4;
 use QtGui4;
@@ -55,7 +56,8 @@ sub _populate_tree_with_files
 
     foreach my $filename (@entries)
     {
-        $files_tree->addTopLevelItem(Qt::TreeWidgetItem([$filename], Qt::TreeWidgetItem::Type()));
+        my $st = stat( File::Spec->catfile($dir_pathname, $filename) );
+        $files_tree->addTopLevelItem(Qt::TreeWidgetItem([$filename, $st->size(), scalar(localtime($st->mtime()))], Qt::TreeWidgetItem::Type()));
     }
 
     return;
@@ -116,6 +118,8 @@ sub NEW {
     $layout->addWidget($update_button, 1, 0, 1, 2);
 
     my $files_tree = Qt::TreeWidget();
+
+    $files_tree->setHeaderLabels(["Name", "Size", "Date Modified",]);
 
     my $dir_pathname = "/media/win_d/Music/mp3";
 
