@@ -5,7 +5,7 @@ use warnings;
 
 use QtCore4;
 use QtGui4;
-# [0]
+
 use QtCore4::isa qw( Qt::Widget );
 use QtCore4::slots update => [];
 
@@ -39,9 +39,9 @@ sub update {
     );
 }
 
-# [0]
 
-# [0]
+
+
 sub NEW {
     my ( $class, $parent ) = @_;
     $class->SUPER::NEW( $parent );
@@ -85,9 +85,8 @@ sub NEW {
     $resultLayout->addWidget($resultLabel, 0, 0);
     $resultLayout->addWidget(this->resultLineEdit, 1, 0, 1, 2);
     $resultGroup->setLayout($resultLayout);
-# [7]
 
-# [8]
+
     my $layout = Qt::GridLayout();
     $layout->addWidget($addendGroup, 0, 0);
     $layout->addWidget($addend2Group, 0, 1);
