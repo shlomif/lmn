@@ -2,6 +2,9 @@ package App::Qt::AdHocFileManager::Window;
 
 use strict;
 use warnings;
+use autodie;
+
+use File::Spec;
 
 use QtCore4;
 use QtGui4;
@@ -39,7 +42,24 @@ sub update {
     );
 }
 
+sub _populate_tree_with_files
+{
+    my ($files_tree, $dir_pathname) = @_;
 
+    my $dh;
+    opendir $dh, $dir_pathname;
+
+    my @entries = sort (File::Spec->no_upwards(readdir($dh)));
+
+    closedir ($dh);
+
+    foreach my $filename (@entries)
+    {
+        $files_tree->addTopLevelItem(Qt::TreeWidgetItem([$filename], Qt::TreeWidgetItem::Type()));
+    }
+
+    return;
+}
 
 
 sub NEW {
@@ -96,7 +116,10 @@ sub NEW {
     $layout->addWidget($update_button, 1, 0, 1, 2);
 
     my $files_tree = Qt::TreeWidget();
-    $files_tree->addTopLevelItem(Qt::TreeWidgetItem(["Foobar"], Qt::TreeWidgetItem::Type()));
+
+    my $dir_pathname = "/media/win_d/Music/mp3";
+
+    this->_populate_tree_with_files($files_tree, $dir_pathname);
 
     $layout->addWidget($files_tree, 2, 0, 1, 3);
 
