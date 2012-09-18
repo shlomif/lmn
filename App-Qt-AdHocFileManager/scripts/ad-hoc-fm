@@ -1,2 +1,2 @@
 #!/bin/sh
-perl -Ilib -MApp::Qt::AdHocFileManager
+perl -Ilib -MApp::Qt::AdHocFileManager -e '' "/media/win_d/Music/mp3"

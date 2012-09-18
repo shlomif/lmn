@@ -121,7 +121,7 @@ sub NEW {
 
     $files_tree->setHeaderLabels(["Name", "Size", "Date Modified",]);
 
-    my $dir_pathname = "/media/win_d/Music/mp3";
+    my $dir_pathname = shift(@ARGV);
 
     this->_populate_tree_with_files($files_tree, $dir_pathname);
 
