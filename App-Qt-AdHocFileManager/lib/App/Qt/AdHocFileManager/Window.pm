@@ -94,6 +94,12 @@ sub NEW {
 
     my $update_button = Qt::PushButton("Update");
     $layout->addWidget($update_button, 1, 0, 1, 2);
+
+    my $files_tree = Qt::TreeWidget();
+    $files_tree->addTopLevelItem(Qt::TreeWidgetItem(["Foobar"], Qt::TreeWidgetItem::Type()));
+
+    $layout->addWidget($files_tree, 2, 0, 1, 3);
+
     this->setLayout($layout);
 
     this->connect($update_button, SIGNAL 'clicked()',
