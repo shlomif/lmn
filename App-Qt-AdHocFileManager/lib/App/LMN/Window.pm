@@ -1,4 +1,4 @@
-package App::Qt::AdHocFileManager::Window;
+package App::LMN::Window;
 
 use strict;
 use warnings;
@@ -15,7 +15,7 @@ use QtGui4;
 use QtCore4::isa qw( Qt::MainWindow );
 use QtCore4::slots update => [], windowExit => [];
 
-use App::Qt::AdHocFileManager::FileBrowserWidget;
+use App::LMN::FileBrowserWidget;
 
 sub addendLineEdit() {
     return this->{addendLineEdit};
@@ -111,7 +111,7 @@ sub NEW {
     foreach my $dir_pathname (@ARGV)
     {
         $tab_widget->addTab(
-            App::Qt::AdHocFileManager::FileBrowserWidget(
+            App::LMN::FileBrowserWidget(
                 this,
                 {
                     dir_pathname => $dir_pathname,

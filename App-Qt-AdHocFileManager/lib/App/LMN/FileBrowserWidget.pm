@@ -1,4 +1,4 @@
-package App::Qt::AdHocFileManager::FileBrowserWidget;
+package App::LMN::FileBrowserWidget;
 
 use strict;
 use warnings;

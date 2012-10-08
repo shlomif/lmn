@@ -1,15 +1,15 @@
-package App::Qt::AdHocFileManager;
+package App::LMN;
 
 use strict;
 use warnings;
 
 use QtCore4;
 use QtGui4;
-use App::Qt::AdHocFileManager::Window;
+use App::LMN::Window;
 
 sub main {
     my $app = Qt::Application( \@ARGV );
-    my $window = App::Qt::AdHocFileManager::Window();
+    my $window = App::LMN::Window();
     $window->show();
     exit $app->exec();
 }
