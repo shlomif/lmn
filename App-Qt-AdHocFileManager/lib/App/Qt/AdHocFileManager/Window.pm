@@ -12,8 +12,8 @@ use File::stat;
 use QtCore4;
 use QtGui4;
 
-use QtCore4::isa qw( Qt::Widget );
-use QtCore4::slots update => [];
+use QtCore4::isa qw( Qt::MainWindow );
+use QtCore4::slots update => [], windowExit => [];
 
 sub addendLineEdit() {
     return this->{addendLineEdit};
@@ -65,6 +65,10 @@ sub _populate_tree_with_files
     return;
 }
 
+
+sub windowExit() {
+    exit(0);
+}
 
 sub NEW {
     my ( $class, $parent ) = @_;
@@ -129,12 +133,22 @@ sub NEW {
 
     $layout->addWidget($files_tree, 2, 0, 1, 3);
 
-    this->setLayout($layout);
+    my $widget = Qt::Widget();
+    $widget->setLayout($layout);
+    this->setCentralWidget($widget);
 
     this->connect($update_button, SIGNAL 'clicked()',
         this, SLOT 'update()');
 
     this->setWindowTitle(this->tr(q{Shlomif's Ad-Hoc File Manager}));
+
+    my $fileMenu = this->menuBar()->addMenu(this->tr("&File"));
+    my $exitAction = Qt::Action(this->tr("E&xit"), this);
+
+    this->connect($exitAction, SIGNAL 'triggered()',
+        this, SLOT 'windowExit()');
+
+    $fileMenu->addAction($exitAction);
 
     this->update();
 }
