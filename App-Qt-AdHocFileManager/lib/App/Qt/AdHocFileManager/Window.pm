@@ -15,6 +15,8 @@ use QtGui4;
 use QtCore4::isa qw( Qt::MainWindow );
 use QtCore4::slots update => [], windowExit => [];
 
+use App::Qt::AdHocFileManager::FileBrowserWidget;
+
 sub addendLineEdit() {
     return this->{addendLineEdit};
 }
@@ -45,25 +47,6 @@ sub update {
     );
 }
 
-sub _populate_tree_with_files
-{
-    my ($files_tree, $dir_pathname) = @_;
-
-    my $dh;
-    opendir $dh, $dir_pathname;
-
-    my @entries = sort (File::Spec->no_upwards(readdir($dh)));
-
-    closedir ($dh);
-
-    foreach my $filename (@entries)
-    {
-        my $st = stat( File::Spec->catfile($dir_pathname, $filename) );
-        $files_tree->addTopLevelItem(Qt::TreeWidgetItem([$filename, $st->size(), scalar(localtime($st->mtime()))], Qt::TreeWidgetItem::Type()));
-    }
-
-    return;
-}
 
 
 sub windowExit() {
@@ -127,13 +110,15 @@ sub NEW {
 
     foreach my $dir_pathname (@ARGV)
     {
-        my $files_tree = Qt::TreeWidget();
-
-        $files_tree->setHeaderLabels(["Name", "Size", "Date Modified",]);
-
-        this->_populate_tree_with_files($files_tree, $dir_pathname);
-
-        $tab_widget->addTab($files_tree, $dir_pathname);
+        $tab_widget->addTab(
+            App::Qt::AdHocFileManager::FileBrowserWidget(
+                this,
+                {
+                    dir_pathname => $dir_pathname,
+                }
+            ),
+            $dir_pathname,
+        );
     }
 
     $layout->addWidget($tab_widget, 2, 0, 1, 3);
