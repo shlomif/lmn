@@ -123,15 +123,20 @@ sub NEW {
     my $update_button = Qt::PushButton("Update");
     $layout->addWidget($update_button, 1, 0, 1, 2);
 
-    my $files_tree = Qt::TreeWidget();
+    my $tab_widget = Qt::TabWidget();
 
-    $files_tree->setHeaderLabels(["Name", "Size", "Date Modified",]);
+    foreach my $dir_pathname (@ARGV)
+    {
+        my $files_tree = Qt::TreeWidget();
 
-    my $dir_pathname = shift(@ARGV);
+        $files_tree->setHeaderLabels(["Name", "Size", "Date Modified",]);
 
-    this->_populate_tree_with_files($files_tree, $dir_pathname);
+        this->_populate_tree_with_files($files_tree, $dir_pathname);
 
-    $layout->addWidget($files_tree, 2, 0, 1, 3);
+        $tab_widget->addTab($files_tree, $dir_pathname);
+    }
+
+    $layout->addWidget($tab_widget, 2, 0, 1, 3);
 
     my $widget = Qt::Widget();
     $widget->setLayout($layout);

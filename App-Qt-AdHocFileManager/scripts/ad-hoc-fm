@@ -1,2 +1,3 @@
 #!/bin/sh
-perl -Ilib -MApp::Qt::AdHocFileManager -e '' "/media/win_d/Music/mp3"
+perl -Ilib -MApp::Qt::AdHocFileManager -e '' "/media/win_d/Music/mp3" \
+    "/mnt/smb/music/Music/mp3s/"
