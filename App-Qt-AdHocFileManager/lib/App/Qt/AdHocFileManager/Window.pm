@@ -4,6 +4,8 @@ use strict;
 use warnings;
 use autodie;
 
+use utf8;
+
 use File::Spec;
 use File::stat;
 
@@ -132,7 +134,7 @@ sub NEW {
     this->connect($update_button, SIGNAL 'clicked()',
         this, SLOT 'update()');
 
-    this->setWindowTitle(this->tr('Mini Calculator'));
+    this->setWindowTitle(this->tr(q{Shlomif's Ad-Hoc File Manager}));
 
     this->update();
 }
