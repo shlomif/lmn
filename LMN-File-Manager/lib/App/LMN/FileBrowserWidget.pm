@@ -6,6 +6,8 @@ use autodie;
 
 use utf8;
 
+use Encode qw(decode);
+
 use File::Spec;
 use File::stat;
 
@@ -34,7 +36,16 @@ sub _populate_tree_with_files
     foreach my $filename (@entries)
     {
         my $st = stat( File::Spec->catfile($dir_pathname, $filename) );
-        this->addTopLevelItem(Qt::TreeWidgetItem([$filename, $st->size(), scalar(localtime($st->mtime()))], Qt::TreeWidgetItem::Type()));
+        this->addTopLevelItem(
+            Qt::TreeWidgetItem(
+                [
+                    decode('UTF-8', $filename),
+                    $st->size(),
+                    scalar(localtime($st->mtime()))
+                ],
+                Qt::TreeWidgetItem::Type()
+            )
+        );
     }
 
     return;
