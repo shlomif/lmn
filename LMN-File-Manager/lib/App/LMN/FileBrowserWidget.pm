@@ -11,8 +11,6 @@ use Encode qw(decode);
 use File::Spec;
 use File::stat;
 
-use URI::file;
-
 use Sys::Hostname qw(hostname);
 
 use QtCore4;
