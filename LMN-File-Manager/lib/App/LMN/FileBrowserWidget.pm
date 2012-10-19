@@ -62,6 +62,10 @@ sub NEW
     this->setHeaderLabels(["Name", "Size", "Date Modified",]);
     this->_populate_tree_with_files();
 
+    this->setSelectionMode(Qt::AbstractItemView::ExtendedSelection());
+    this->setDragEnabled(1);
+    this->setDragDropMode(Qt::AbstractItemView::DragOnly());
+
     return;
 }
 
