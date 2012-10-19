@@ -13,6 +13,8 @@ use File::stat;
 
 use URI::file;
 
+use Sys::Hostname qw(hostname);
+
 use QtCore4;
 use QtGui4;
 
@@ -62,7 +64,7 @@ sub _populate_tree_with_files
 
 sub mimeTypes
 {
-    return ['text/uri-list', 'text-xdnd-username'];
+    return ['text/uri-list', 'text/xdnd-username'];
 }
 
 sub mimeData
@@ -73,31 +75,32 @@ sub mimeData
 
     my $mime_data = Qt::MimeData();
 
-    my $encoded_data_uris = Qt::ByteArray();
     my $encoded_data_users = Qt::ByteArray();
     my $data_stream_users = Qt::DataStream($encoded_data_users, Qt::IODevice::WriteOnly());
-    my $data_stream_uris = Qt::DataStream($encoded_data_uris, Qt::IODevice::WriteOnly());
 
     my $username = getpwuid($<);
 
-    foreach my $item (@$indexes)
+    my @urls;
+
     {
         # For the << operator.
         no warnings 'void';
-
         $data_stream_users << $username;
+        foreach my $item (@$indexes)
+        {
 
-        $data_stream_uris <<
-            (URI::file->new(
+
+            push @urls, Qt::Url::fromLocalFile(
                 File::Spec->catfile(
                     $dir_pathname,
-                    $item->data(0, Qt::DisplayRole()),
+                    $item->data(0, Qt::DisplayRole())->toString(),
                 )
-            )->as_string());
+            );
+        }
     }
 
-    $mime_data->setData('text/uri-list', $encoded_data_uris);
-    $mime_data->setData('text-xdnd-username', $encoded_data_users);
+    $mime_data->setUrls(\@urls);
+    $mime_data->setData('text/xdnd-username', $encoded_data_users);
 
     return $mime_data;
 }
