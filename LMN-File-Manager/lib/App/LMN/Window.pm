@@ -17,6 +17,8 @@ use QtCore4::slots windowExit => [];
 
 use App::LMN::FileBrowserWidget;
 
+our $VERSION = '0.0.1';
+
 sub windowExit() {
     exit(0);
 }
