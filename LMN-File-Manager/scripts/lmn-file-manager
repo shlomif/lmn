@@ -1,3 +1,4 @@
 #!/bin/sh
-perl -Ilib -M"App::LMN" -e '' "/media/win_d/Music/mp3" \
-    "/mnt/smb/music/Music/mp3s/"
+perl -Ilib -M"App::LMN" -e 'App::LMN::main()' \
+    "/home/music/Music/dosd-mp3s/" \
+    "/home/music/Music/mp3s/"

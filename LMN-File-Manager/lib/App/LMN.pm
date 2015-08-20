@@ -28,7 +28,6 @@ sub main {
     exit $app->exec();
 }
 
-main();
 1;
 
 =head1 SYNOPSIS
